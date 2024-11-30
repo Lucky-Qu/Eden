@@ -2,6 +2,7 @@ package routes
 
 import (
 	"Eden/01_mall/config"
+	"Eden/01_mall/controller"
 	"Eden/01_mall/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +11,11 @@ import (
 func NewRouter() *gin.Engine {
 	g := gin.Default()
 	g.Use(middleware.Middleware())
+	//用户端
+	g.GET("/user/select", controller.SelectUser)
+	g.POST("/user/register", controller.CreateUser)
+	g.DELETE("/user/delete", controller.DeleteUser)
+	g.PUT("/user/update", controller.UpdateUser)
 	return g
 }
 
