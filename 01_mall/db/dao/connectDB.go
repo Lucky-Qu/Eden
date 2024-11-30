@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+// ConnectDB 链接数据库并返回一个db
 func ConnectDB() (db *gorm.DB) {
 	var err error
 	db, err = gorm.Open(mysql.New(mysql.Config{
