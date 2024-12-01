@@ -4,6 +4,7 @@ import (
 	"Eden/01_mall/db/dao"
 	"Eden/01_mall/db/model"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 func UserRegister(c *gin.Context) {
@@ -36,8 +37,30 @@ func UserGet(c *gin.Context) {
 	}
 }
 func UserChange(c *gin.Context) {
-	dao.UpdateUser()
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+	var user model.User
+	err = c.ShouldBindJSON(&user)
+	if err != nil {
+		panic(err)
+	}
+	userBefore := user
+	dao.UpdateUser(id, &user)
+	c.JSON(200, gin.H{
+		"msg":        "更改成功",
+		"userBefore": userBefore,
+		"userAfter":  user,
+	})
 }
 func UserDelete(c *gin.Context) {
-	dao.DeleteUser()
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+	dao.DeleteUser(id)
+	c.JSON(200, gin.H{
+		"msg": "删除成功",
+	})
 }
