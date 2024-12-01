@@ -2,7 +2,6 @@ package dao
 
 import (
 	"Eden/01_mall/db/model"
-	"reflect"
 )
 
 // CreateUser 创建新用户
@@ -22,17 +21,16 @@ func DeleteUser() {
 }
 
 // SelectUser 检索用户信息
-func SelectUser(user *model.User) (ResultUser []*model.User) {
-	var queryString = ""
-	v := reflect.ValueOf(user).Elem()
-	for i := 0; i < v.NumField(); i++ {
-		if !v.Field(i).IsZero() {
-			if queryString != "" {
-				queryString += "AND"
-			}
-			queryString = queryString + v.Type().Field(i).Name + " " + "=" + " " + v.Field(i).String()
+func SelectUser(username string, sex string) (ResultUser []*model.User) {
+	queryString := ""
+	if len(username) > 0 {
+		queryString = queryString + "username = " + "\"" + username + "\""
+		if len(sex) > 0 {
+			queryString = queryString + " && " + "sex = " + "\"" + sex + "\""
 		}
+	} else if len(sex) > 0 {
+		queryString = queryString + "sex = " + "\"" + sex + "\""
 	}
-	db.Where(queryString).Find(&ResultUser)
+	db.Model(&model.User{}).Where(queryString).Find(&ResultUser)
 	return ResultUser
 }
