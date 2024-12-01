@@ -8,6 +8,7 @@ import (
 // CreateUser 创建新用户
 func CreateUser(user *model.User) {
 	db.Model(&model.User{}).Create(user)
+
 }
 
 // UpdateUser 更新用户信息

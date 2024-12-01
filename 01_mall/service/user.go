@@ -13,4 +13,8 @@ func UserRegister(c *gin.Context) {
 		panic(err)
 	}
 	dao.CreateUser(&user)
+	c.JSON(200, gin.H{
+		"msg":  "创建成功",
+		"user": user,
+	})
 }
