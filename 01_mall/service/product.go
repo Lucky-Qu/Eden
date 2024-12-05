@@ -49,3 +49,16 @@ func GetProduct(queryData *map[string]interface{}) (*[]model.Product, error) {
 	}
 	return products, nil
 }
+
+func GetProductById(id int) (*model.Product, error) {
+	var queryString = "id = " + "'" + strconv.Itoa(id) + "'"
+	products, err := dao.GetProduct(queryString)
+	if err != nil {
+		return nil, err
+	}
+	if len(*products) == 0 {
+		return nil, nil
+	}
+	product := &(*products)[0]
+	return product, nil
+}

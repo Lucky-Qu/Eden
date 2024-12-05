@@ -13,7 +13,7 @@ func CreateProduct(c *gin.Context) {
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
-			"msg":  "绑定失败",
+			"msg":  "传入数据有误！",
 			"data": nil,
 		})
 		return
@@ -40,7 +40,6 @@ func DeleteProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  err,
-			"data": nil,
 		})
 		return
 	}
@@ -48,13 +47,20 @@ func DeleteProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  err,
-			"data": nil,
 		})
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code": http.StatusOK,
-			"msg":  "删除成功",
-		})
+		data, _ := service.GetProductById(idInt)
+		if data == nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"msg":  "没有找到相应序号的资源",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"msg":  "删除成功",
+			})
+		}
 	}
 }
 func UpdateProduct(c *gin.Context) {
@@ -84,15 +90,19 @@ func UpdateProduct(c *gin.Context) {
 			"data": nil,
 		})
 	} else {
-		queryMap := map[string]interface{}{
-			"id": idString,
+		data, _ := service.GetProductById(idInt)
+		if data == nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"msg":  "没有找到对应资源",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"data": data,
+				"msg":  "更新用户数据成功",
+			})
 		}
-		data, _ := service.GetProduct(&queryMap)
-		c.JSON(http.StatusOK, gin.H{
-			"code": http.StatusOK,
-			"data": data,
-			"msg":  "更新用户数据成功",
-		})
 	}
 }
 func GetProduct(c *gin.Context) {
