@@ -13,7 +13,7 @@ func CreateProduct(c *gin.Context) {
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
-			"msg":  err,
+			"msg":  "绑定失败",
 			"data": nil,
 		})
 		return
@@ -21,7 +21,7 @@ func CreateProduct(c *gin.Context) {
 	if err := service.CreateProduct(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
-			"msg":  err,
+			"msg":  "创建用户失败",
 			"data": nil,
 		})
 		return

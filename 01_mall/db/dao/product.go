@@ -1,6 +1,8 @@
 package dao
 
-import "Eden/01_mall/db/model"
+import (
+	"Eden/01_mall/db/model"
+)
 
 func CreateProduct(product *model.Product) error {
 	if err := db.Model(&model.Product{}).Create(product); err.Error != nil {
