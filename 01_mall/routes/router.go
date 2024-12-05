@@ -16,6 +16,11 @@ func NewRouter() *gin.Engine {
 	g.POST("/user/register", controller.CreateUser)
 	g.DELETE("/user/delete/:id", controller.DeleteUser)
 	g.PUT("/user/update/:id", controller.UpdateUser)
+	//产品端
+	g.GET("/product/select", controller.GetProduct)
+	g.POST("/product/create", controller.CreateProduct)
+	g.DELETE("/product/delete/:id", controller.DeleteProduct)
+	g.PUT("/product/update/:id", controller.UpdateProduct)
 	return g
 }
 
