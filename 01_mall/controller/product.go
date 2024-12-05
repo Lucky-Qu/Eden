@@ -84,9 +84,13 @@ func UpdateProduct(c *gin.Context) {
 			"data": nil,
 		})
 	} else {
+		queryMap := map[string]interface{}{
+			"id": idString,
+		}
+		data, _ := service.GetProduct(&queryMap)
 		c.JSON(http.StatusOK, gin.H{
 			"code": http.StatusOK,
-			"data": product,
+			"data": data,
 			"msg":  "更新用户数据成功",
 		})
 	}
