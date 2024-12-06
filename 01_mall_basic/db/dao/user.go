@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"Eden/01_mall/db/model"
+	"Eden/01_mall_basic/db/model"
 )
 
 // CreateUser 创建新用户

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"Eden/01_mall/db/model"
-	"Eden/01_mall/service"
+	"Eden/01_mall_basic/db/model"
+	"Eden/01_mall_basic/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

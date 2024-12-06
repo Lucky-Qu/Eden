@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"Eden/01_mall/config"
-	"Eden/01_mall/controller"
-	"Eden/01_mall/middleware"
+	"Eden/01_mall_basic/config"
+	"Eden/01_mall_basic/controller"
+	"Eden/01_mall_basic/middleware"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Eden/01_mall/db/dao"
-	"Eden/01_mall/db/model"
+	"Eden/01_mall_basic/db/dao"
+	"Eden/01_mall_basic/db/model"
 	"errors"
 	"strconv"
 )

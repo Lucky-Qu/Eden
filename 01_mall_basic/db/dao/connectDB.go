@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"Eden/01_mall/config"
-	"Eden/01_mall/db/model"
+	"Eden/01_mall_basic/config"
+	"Eden/01_mall_basic/db/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
