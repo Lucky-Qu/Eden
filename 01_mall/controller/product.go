@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// CreateProduct 从表单中获取数据并绑定到dao中定义的模型
 func CreateProduct(c *gin.Context) {
 	var product model.Product
 	if err := c.ShouldBindJSON(&product); err != nil {
@@ -33,6 +34,8 @@ func CreateProduct(c *gin.Context) {
 		})
 	}
 }
+
+// DeleteProduct 从uri中获取删除的id来调用删除方法
 func DeleteProduct(c *gin.Context) {
 	idString := c.Param("id")
 	idInt, err := strconv.Atoi(idString)
