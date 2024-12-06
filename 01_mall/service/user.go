@@ -18,7 +18,7 @@ func GetUser(queryData *map[string]interface{}) (*[]model.User, error) {
 	for key, value := range *queryData {
 		if value != nil {
 			if queryString != "" {
-				queryString += " & "
+				queryString += " && "
 			}
 			switch value.(type) {
 			case string:

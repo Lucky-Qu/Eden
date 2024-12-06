@@ -31,7 +31,7 @@ func GetProduct(queryData *map[string]interface{}) (*[]model.Product, error) {
 	for key, value := range *queryData {
 		if value != nil {
 			if queryString != "" {
-				queryString += " & "
+				queryString += "&&"
 			}
 			switch value.(type) {
 			case string:
