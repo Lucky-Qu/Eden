@@ -52,19 +52,12 @@ func DeleteProduct(c *gin.Context) {
 			"msg":  err,
 		})
 	} else {
-		data, _ := service.GetProductById(idInt)
-		if data == nil {
-			c.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"msg":  "没有找到相应序号的资源",
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"msg":  "删除成功",
-			})
-		}
+		c.JSON(http.StatusOK, gin.H{
+			"code": http.StatusOK,
+			"msg":  "删除成功",
+		})
 	}
+
 }
 func UpdateProduct(c *gin.Context) {
 	idString := c.Param("id")
@@ -110,13 +103,11 @@ func UpdateProduct(c *gin.Context) {
 }
 func GetProduct(c *gin.Context) {
 	queryData := make(map[string]interface{})
-	if err := c.ShouldBindJSON(&queryData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code": http.StatusBadRequest,
-			"msg":  err,
-			"data": nil,
-		})
-		return
+	v := c.Request.URL.Query()
+	for key, value := range v {
+		if len(value) > 0 {
+			queryData[key] = value[0]
+		}
 	}
 	if queryData == nil {
 		c.JSON(http.StatusBadRequest, gin.H{

@@ -3,64 +3,60 @@ package service
 import (
 	"Eden/01_mall/db/dao"
 	"Eden/01_mall/db/model"
-	"github.com/gin-gonic/gin"
+	"errors"
 	"strconv"
 )
 
-func UserRegister(c *gin.Context) {
-	var user model.User
-	err := c.ShouldBindJSON(&user)
-	if err != nil {
-		panic(err)
+func UserRegister(user *model.User) error {
+	if err := dao.CreateUser(user); err != nil {
+		return err
 	}
-	dao.CreateUser(&user)
-	c.JSON(200, gin.H{
-		"msg":  "创建成功",
-		"user": user,
-	})
+	return nil
 }
-func UserGet(c *gin.Context) {
-	var username string
-	var sex string
-	username, _ = c.GetQuery("username")
-	sex, _ = c.GetQuery("sex")
-	result := dao.SelectUser(username, sex)
-	if result != nil {
-		c.JSON(200, gin.H{
-			"msg":  "查询成功",
-			"user": result,
-		})
-	} else {
-		c.JSON(400, gin.H{
-			"msg": "未查询到用户",
-		})
+func GetUser(queryData *map[string]interface{}) (*[]model.User, error) {
+	var queryString string
+	for key, value := range *queryData {
+		if value != nil {
+			if queryString != "" {
+				queryString += " & "
+			}
+			switch value.(type) {
+			case string:
+				queryString += key + " = " + "'" + value.(string) + "'"
+			case int:
+				queryString += key + " = " + "'" + strconv.Itoa(value.(int)) + "'"
+			default:
+				return nil, errors.New("传入了错误类型的参数")
+			}
+		}
 	}
+	user, err := dao.SelectUser(queryString)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
-func UserChange(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		panic(err)
+func UserChange(id int, userChanged *model.User) error {
+	if err := dao.UpdateUser(id, userChanged); err != nil {
+		return err
 	}
-	var user model.User
-	err = c.ShouldBindJSON(&user)
-	if err != nil {
-		panic(err)
-	}
-	userBefore := user
-	dao.UpdateUser(id, &user)
-	c.JSON(200, gin.H{
-		"msg":        "更改成功",
-		"userBefore": userBefore,
-		"userAfter":  user,
-	})
+	return nil
 }
-func UserDelete(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		panic(err)
+func UserDelete(id int) error {
+	if err := dao.DeleteUser(id); err != nil {
+		return err
 	}
-	dao.DeleteUser(id)
-	c.JSON(200, gin.H{
-		"msg": "删除成功",
-	})
+	return nil
+}
+func GetUserById(id int) (*model.User, error) {
+	var queryString = "id =" + "'" + strconv.Itoa(id) + "'"
+	user, err := dao.SelectUser(queryString)
+	if err != nil {
+		return nil, err
+	}
+	if len(*user) == 0 {
+		return nil, nil
+	}
+	userUpdated := &(*user)[0]
+	return userUpdated, nil
 }
