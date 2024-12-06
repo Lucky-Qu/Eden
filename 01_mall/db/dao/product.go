@@ -5,27 +5,27 @@ import (
 )
 
 func CreateProduct(product *model.Product) error {
-	if err := db.Model(&model.Product{}).Create(product); err.Error != nil {
-		return db.Error
+	if err := db.Model(&model.Product{}).Create(product).Error; err != nil {
+		return err
 	}
 	return nil
 }
 func DeleteProduct(num int) error {
-	if err := db.Model(&model.Product{}).Where("id = ?", num).Unscoped().Delete(num); err.Error != nil {
-		return db.Error
+	if err := db.Model(&model.Product{}).Where("id = ?", num).Unscoped().Delete(num).Error; err != nil {
+		return err
 	}
 	return nil
 }
-func UpdateProduct(num int, product *model.Product) error {
-	if err := db.Model(&model.Product{}).Where("id = ?", num).Updates(product); err.Error != nil {
-		return db.Error
+func UpdateProduct(id int, product *model.Product) error {
+	if err := db.Model(&model.Product{}).Where("id = ?", id).Updates(product).Error; err != nil {
+		return err
 	}
 	return nil
 }
 func GetProduct(queryString string) (*[]model.Product, error) {
 	var products []model.Product
-	if err := db.Model(&model.Product{}).Where(queryString).Find(&products); err.Error != nil {
-		return nil, db.Error
+	if err := db.Model(&model.Product{}).Where(queryString).Find(&products).Error; err != nil {
+		return nil, err
 	}
 	return &products, nil
 }
